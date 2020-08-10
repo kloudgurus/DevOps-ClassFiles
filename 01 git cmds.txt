@@ -1,0 +1,198 @@
+configurations:
+===============
+
+git --version  -> to check the git verstion 
+
+
+1 git init   -> to initialize git and then we can get .git bare repo
+
+2 git config --global user.name <username>    ---> to set username
+
+3 git config --global user.email <email>      ---> to set user email
+
+
+4 git config --list --> to listout all configuration files
+
+
+5 git config --global --unset user.name    --> to unset that means to remove user.name conf file
+
+6 git config --global --unset user.email    --> to unset user.email
+
+
+
+get repo to localsystem:
+=======================
+git clone repourl-> to download entire repo as a folder into ur system
+
+cd repofolder     -> to enter into repo folder
+
+
+
+
+
+
+1 git status    ->   to check is there any files in workspace or in staging (index)
+
+red   -> workspace
+green -> index
+
+
+
+2 git add  -> to move the files from workspace to staging
+
+a) single file 
+
+git add filename
+
+b) multiplefiles
+
+git add file1 file2 file3
+
+c) all files
+
+git add .
+
+
+
+3 git commit  -> to move the files from staging to localrepo
+
+
+a) single file
+
+git commit -m "commit message"  filename
+
+b) multiple files
+
+git commit -m "commit message"  file1 file2 file3
+
+c) all files
+
+git commit -m "commit message" 
+
+
+
+
+4 git log   -> to check the log info i.e. we can see commit id (SHA -code) ,commit description
+
+
+git show cid    -> to display the file name and content which is committed
+
+
+
+5 git push  -> to push the code into central hub from the local repo of localsystem
+
+note: if u want to push anything into central hub that should be there in the localrepo phase of localsystem
+
+
+
+
+Revert back:
+============
+
+
+
+1 git reset --soft cid    -> to get the latest commits "which are committed after the cid u have given" to the staging from localrepo by removing log info in localrepo
+
+
+2 git reset head filenames   -> to get files from staging to workspace
+
+
+3 git reset --mixed  cid -> to get files from localrepo to workspace directly without moving to staging
+
+ 
+
+modified file:
+==============
+
+
+
+note: if u edit any file which is committed,then it goes into workspace and treated as modified file
+
+
+1 git add .  --> to move files from workspace to staging
+
+
+2 git commit -m "commit description"   -->  to move files from staging to localrepo or we can move "modified files" from workspace to localrepo directly
+
+
+3 git commit -am "commit description"  --> to move all modified files from workspace to local repo
+
+
+
+pull:
+======
+
+
+1 git pull repourl  -> to get updates from the centralhub to the local system
+
+
+where    pull = fetch + merge
+
+git pull repourl = git fetch repourl + git merge origin master
+
+
+Note: For every git push we must give git pull before.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
