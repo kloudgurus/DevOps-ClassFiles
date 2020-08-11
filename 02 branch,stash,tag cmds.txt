@@ -1,0 +1,173 @@
+
+
+Differentiate:
+==============
+
+1 git diff <filename>     --> to see the modify data in the file (before committing that modified file)
+
+
+ previous data     - red
+
+ modified data     - green
+
+2 git diff <file1> <file2> <file3>     --> we can see the modified data in all files at a time
+
+
+
+
+
+Branches:
+=========
+
+by default we have a branch named with "master"
+
+
+1 git branch  --> to list out branches in local system
+
+2 git branch -r --> to list out branches which are there in central hub
+
+3 git branch -a  --> to list out branches in both local system and central hub 
+
+
+4 git branch <branch_name>  --> to create a new branch
+
+
+5 git checkout <branch_name>   --> to enter into the branch
+
+
+6 git checkout -b <branch_name>  --> to create and enter into a branch
+
+
+7 git branch -m <existed branch name>  <new branch name>   --> to rename branch
+
+
+8 git branch -d <branch_name>   --> to delete branch
+
+
+note:  whenever we are creating new brances ,  the branches get the code from master automatically.
+
+
+merging:
+========
+
+1 git merge <branch_name>    --> to merge with a branch with merge description
+
+2 git rebase <branch_name>    --> to merge with branch with out any merge description.
+
+
+conflicts:
+==========
+
+note: there is only one situation we can see conflicts is whenver we are making chages in a file in both branches with diff content and try to merge branches
+
+
+we can resolve conflicts in two ways.
+
+1 while in the merging ,we can resolve
+
+2 get out of merging and manually we can resolve the issue (preferred one)
+
+
+git merge --abort    --> to get out of the merging
+
+
+
+Stash Memory:
+
+=============
+
+
+stash memory is used to save the files temperorly from staging
+
+1 git stash list     --> to list out stash memories
+
+2 git stash save "stash descreption"    --> to get the files from staging to stash memory
+
+note: latest files can occupy stash id stash@{0} ,then the previous files from stash@{0} will move to stash@{1}, 1 to 2...
+
+
+3 git stash show -p <stash id>  --> to list out the files with content from stash memory
+
+
+4 git stash apply <stash id>    --> to get the files back from stash memory withot drop stash memory
+
+
+5 git stash drop <stash id>      --> to drop the stash memory
+
+
+6 git stash pop   <stash id>       --> to get the files back from stash memory by dropping stash memory at a time
+
+
+note: if u delete stash@{0} ,the files from stash@{1} will move to stash@{0}, 2 to 1 .....
+
+
+
+
+Tags:
+========
+
+
+After adding features to the code we need to release coode with tag names
+
+
+
+1  git tag   --> to list  out all tags
+
+
+2 git tag <tag name>   --> to create entire code with tag name
+
+
+3 git tag show <tag name>   --> to see new added features (files here)
+
+
+4 git push origin <tag name>  --> to push into central hub as a new release
+
+
+5 git tag -d <tagname>      --> to delete tag in our local system
+
+
+6 git push origin -d <tagname>   --> to delete tag in central repo from the local system
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
