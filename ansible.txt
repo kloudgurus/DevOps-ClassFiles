@@ -1,0 +1,734 @@
+
+CONFIGURATION MANAGEMENT TOOLS :
+===========================================================
+
+ansible:                   -freeware       -python
+----------------------
+
+workstation (node details)                    ->           nodes
+
+
+
+puppet,chef,saltstack:       - closedware    -ruby  
+-----------------------
+
+workstation                      ->      server   (node details)           ->   nodes
+
+
+
+ansible:                     Mainly to work with group of machines to execute group of tasks on remote machines without logging into any remote machine and by giving scripts in local machine
+=========
+                                Deployment tool / configuration management tool
+
+
+
+prerequisite:
+=============
+
+
+ssh communication           and     python
+
+
+
+ansible installation:
+======================
+
+
+1)   ubuntu             - apt  (ansible package)                   sudo apt-get install ansible -y
+
+
+
+
+2)  rhel                - yum  (no ansible package)
+
+
+
+
+1.   main repo                                    -no 
+
+
+2.   official website   (binaries , rpm )         -no
+
+     github repos       - ansible src code
+
+
+     src code   -  rpm file
+
+     rpm -ivh rpmfile
+
+
+3.  external repo   (ansible package)
+
+
+    federo project  -  epel (extra packages for enterprise linux)  - multiple packages (ansible)
+
+
+  
+
+ ubuntu :      /etc/apt/sources.list.d / 
+
+
+ rhel   :     /etc/yum.repos.d/epel                                  sudo yum install ansible -y
+
+
+
+1.
+
+( not working - result some broken packages
+
+wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -ivh epel-release-latest-7.noarch.rpm
+yum install epel-release
+
+yum update -y
+
+yum install ansible -y
+
+)       not working - result some broken packages
+
+
+
+2.               rhel
+
+     yum -y install python3-pip
+
+     pip3 install ansible --user
+
+
+
+Check Version: 
+
+                 ansible --version     
+
+
+
+Important Note:
+=================
+
+By default, Ansible uses the Python interpreter located at /usr/bin/python to run its modules. However, some Linux distributions may only have a Python 3 interpreter installed to /usr/bin/python3 by default. On those systems, you may see an error like:
+
+"module_stdout": "/bin/sh: /usr/bin/python: No such file or directory\r\n"
+you can either set the ansible_python_interpreter inventory variable (see How to build your inventory) to point at your interpreter or you can install a Python 2 interpreter for modules to use. You will still need to set ansible_python_interpreter if the Python 2 interpreter is not installed to /usr/bin/python. 
+
+
+Debug:    Install python3 on remote machines then the command is python3 and set it to python by giving command
+
+
+
+
+
+           alternatives --set python /usr/bin/python3
+
+
+
+
+main files:
+==============
+
+
+/etc/ansible/ ansible.cfg      ( configuration file)
+
+
+                 hosts          (inventory file)
+
+
+                 roles      
+
+
+
+
+host:
+=====
+
+
+700 machines
+
+
+
+[tomcatservers]
+
+250 ip address
+
+[webservers]
+
+250 ip address
+
+
+[dbservers]
+
+300 ip address
+
+
+
+
+1 modules            -     tasks are defined in the modules
+
+
+2 ansible                         -            ansible  ad-hoc commands               - to execute the single task on group of target machines
+
+
+3 playbook                        -           ansible-playbook                        - to execute group of tasks on group of target machines
+
+
+
+
+4 roles                           -        repeated tasks
+
+
+
+
+
+1 modules:
+===========
+
+
+ansible ad-hoc commands:
+===========================     to execute single task on group of machines
+
+
+1 ping           -   to check whether the remote machines are in ping status or not
+
+
+2 setup          -   to gather info of the remote machines
+
+
+3 shell          -  to execute the commands or shellscripts on group of machines at a time
+
+
+4 yum  /   apt   -  to perform tasks related to the the package
+
+                      pkg=<package_name>
+
+
+                      state= installed,absent,present,latest,removed 
+
+
+5 service        -  to perform the tasks related to the services
+
+                      name=<service_name>
+
+
+                      state= reloaded,restarted,started,stopped
+
+
+
+6 file           -  to create files and directories or to work with existing files and directories
+
+
+                     path=
+
+
+                      state= touch,file,directory          (default state=file)
+
+
+
+ a . creation file      state= touch
+
+
+ b.  existed file       state= file
+
+ c.  create directory   state= directory
+
+ d.  existed directory  state= directory
+
+
+
+
+7 copy              - to copy files from local machine to the remote machines
+
+
+       scp   sourcefilelocation    username@remotemachineipaddress:path
+
+ 
+                    src=
+
+
+                    dest=
+
+                    mode,owner,etc
+
+
+8 command           -  to execute commands on group of machines at a time
+
+
+9 raw              - to save the ouput of command execution to a file
+
+
+                     " uptime > uptime.out"
+
+
+                     "ls -l /var/logs  > /tmp/list.out"
+
+ansible-playbook:
+==================  to execute multiple tasks on group of machines
+
+
+
+
+10 action          -  u can take any module inside the action module
+
+
+
+11 pause           -  to pause the task until u click on enter
+
+
+12 wait_for        - to put the task to wait for something
+
+                      port: 80 
+
+                      state: stopped
+
+
+
+13 until           - the task is executed no.of times until a condition is satisfied
+
+
+                       shell: systemctl status httpd
+
+
+                       register: result
+
+
+                       until: result.stdout.find("active") != -1                            Note: active word is there in inactive also - so wont allow retries
+
+                      
+                       retries: 5
+
+
+                       delay: 4
+
+
+
+
+
+
+14 cron             -  cron module is used to create the cron jobs
+
+
+                   
+
+   time format         =    * * * * *
+
+
+
+         minute       =  0-59
+
+
+          hour        =  0-23
+
+
+          date        =  1-31
+
+ 
+         month        =  1-12
+
+ 
+         day of week  =  0-6
+
+                          
+
+  job condition        =  task 
+
+
+
+ex:
+===               * * * *  * "ls -l /var/logs > /tmp/cron.out"
+
+
+15 name            -   to give the description of the task
+
+
+
+16 register        -  to register the output
+
+
+
+17 prompt          -  to display user defined msgs in the output
+
+
+18 ignore_errors   -  to ignore the errors and to continue with the next task
+
+
+
+ansible:         3000 + modules
+
+
+
+aws related task     - cloud computing
+
+
+19 get_url         -       to download the product from website
+
+
+20 unarchive       -        to work with archive files
+
+
+
+
+
+
+
+
+
+2)   ansible ad-hoc command &  ansible playbook
+
+
+A) ansible ad-hoc command:
+========================
+
+to perform single task on group of machine 
+
+we can mention only single module
+
+
+syntax:
+=========
+
+ 
+
+ansible target -i <inventoryfile> -m <modulename> -a <" "> -b
+
+
+
+target:   ip          (single ip)
+
+ 
+
+          ip,ip,ip    (multiple ips)
+
+
+          group       (single group)
+
+
+          group,group (multiple groups) 
+
+
+          all          (all)
+
+
+
+-b : to get sudo privileges to the user
+
+
+user: -
+
+
+
+
+
+
+B) Playbook
+
+========
+
+to perform multiple tasks on group of machines
+
+we can mention no.of modules
+
+
+
+
+--- # this is my first playbook
+
+# 1. target section      --  to give the info of remote machines
+
+
+- hosts: all            (on which the task is executed)
+
+  user: hanuma          (username to perform the tasks in remote machines)
+
+  become: yes            (to get sudo previleges to the user)
+
+  connection: ssh        ( to represent type of connection with remote machines)
+
+  gather_facts: yes      ( to gather facts of remote machines to local machine)
+
+
+# 2 . variable section    --  to declare the variable which can be used in tasks or handler sections
+
+  vars:
+
+    java_home: /var/lib/java
+
+    rhel_package: httpd
+
+    ubuntu_package: apache2
+
+
+
+# 3 . tasks section      -- tasks are given to be executed on remote machines
+
+  tasks: 
+
+     - name: installing apache webserver
+
+       yum: pkg={{rhel_package}} state=installed
+
+       notify: start the service
+
+  
+
+
+# 4 . handler section    -- tasks are given which can be notified by the tasks of task section 
+
+
+      /// ( note:  if task gives the status changed then only it notifies task in handler) ///
+
+  handlers:
+
+      - name: start the service
+
+        service: name={{rhel_package}} state=started
+       
+
+
+:wq
+
+
+
+
+command:
+=========
+
+
+ansible-playbook apache.yml --check                    - to dry run        - it will predict output with out execution
+
+ansible-playbook apache.yml -vvvvvvv                   -  to get verbose info
+
+
+
+
+ouput msgs:
+=============
+
+
+1 ok          changed: false            green
+
+
+2 changed      changed: true            yello
+
+
+3 unreachable 
+
+
+4 failed                                 red
+
+
+apache.yml
+
+
+
+YAML - Yet Another Markup Language (.yml)
+
+
+
+
+
+
+
+PASSING OF VARIABLES:
+========================
+
+
+
+1)        variable section :
+
+
+syntax:
+========           
+
+
+              var:
+
+                 rhelpackage:  httpd
+
+
+
+
+2)        dynamic time :
+
+
+             var_prompt:
+
+                 
+
+
+
+
+3)        while in the loop:
+
+               with_items:
+
+
+
+
+output:
+=========
+
+
+1 ok            (changed=false)            green                  - task is already executed
+
+
+2 changed       (change= true)             yellow                 - task is executed just now
+
+
+3 unreachable                                                     - remote machine is not in ping status   
+
+
+4 failed                                   red                    - some error is there
+
+
+
+
+
+command:
+==============
+
+
+        ansible-playbook    playbook1.yml    -vvvvvvvvvvvvvvvvvvvvvvvvv
+
+
+
+output:
+=========
+
+
+1 ok            (changed=false)            green                  - task is already executed
+
+
+2 changed       (change= true)             yellow                 - task is executed just now
+
+
+3 unreachable                                                     - remote machine is not in ping status   
+
+
+4 failed                                   red                    - some error is there
+
+
+         
+
+
+
+
+
+7 ansible - roles
+======================
+
+
+
+roles are used to reuse the variable and tasks
+
+
+
+playbook1        role1
+
+
+
+playbook2        varb      role1  taskc
+
+
+
+playbook3        varc      role1  taskd taske
+
+
+
+
+
+role1                 vara          taska  taskb
+
+
+
+0 roles creation                         -         done
+1. pre and post tasks                     -        done
+2. conditional execution                  -         done
+3. variable substitution                  -         done
+4. handelers                              -         done
+5. waiting for events                     -          done
+6. executing task untill                  -          done
+7. passing variables                      -          done
+8  passing tasks                          -        done
+9  skipping tasks                         -         done
+
+
+
+
+Tools:
+--------
+
+ansible           - >             
+
+
+ansible-playbook   -> 
+
+
+
+ansible-vault     ->       to encrypt and decrypt the confidential data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+checkout source code     ->       sonar        ->       artifact          ->         nexus           ->    ansible playbook ( down load artifact
+ 
+                                                                                                                               intall java and tomcat
+
+                                                                                                                                 start the service tomcat
+
+                                                                                                                                 deployment
+
+                                                                                                                              )
+
+
+
+
+                                                                                                              virtual machine     ->         containers
+
+
+
+                                                                                                                                         docker swarm/kubernetes/mesos
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
