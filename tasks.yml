@@ -1,0 +1,59 @@
+--- # this is my first playbook
+
+# 1. Target Section - Info about Target machines
+
+- hosts: prod_appservers
+  become: yes
+  connection: ssh
+  gather_facts: yes
+
+
+# 2. Variable Section - Define variables to use them in Tasks
+
+  vars:
+    rhel_package: httpd
+    ubuntu_package: apache2 
+    
+    
+# 3.  Tasks Section  - Call the modules to perfome the tasks
+
+  tasks:
+    - name: install apache web server in rhel
+      yum: pkg={{rhel_package}} state=installed update_cache=yes
+      when: ansible_os_family=="RedHat"
+      notify: start the apache webserver in rhel
+      tags:
+        - task1
+
+
+    - name: install apache web server in ubuntu
+      apt: pkg={{ubuntu_package}} state=latest update_cache=yes
+      when: ansible_os_family=="Debian"
+      notify: start the apache webserver in ubuntu
+      ignore_errors: yes
+      tags:
+        - task2
+
+
+    - name: start the apache webserver in rhel
+      service: name={{rhel_package}} state=started
+      when: ansible_os_family=="RedHat"
+      tags:
+        - task3
+
+    - name: start the apache webserver in ubuntu
+      service: name={{ubuntu_package}} state=started
+      when: ansible_os_family=="Debian"
+      tags:
+        - task4
+
+
+
+
+
+
+
+
+
+
+   

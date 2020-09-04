@@ -1,0 +1,14 @@
+--- # this is my first playbook
+- hosts: prod_appservers
+  become: yes
+
+  tasks:
+    - name: validate if a string is present or not
+      lineinfile: 
+         path: /etc/httpd/conf/httpd.conf
+         insertbefore: "LogLevel"
+         line: "new line"
+         firstmatch: yes
+         state: present
+         backup: yes
+      register: example 

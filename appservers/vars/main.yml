@@ -1,0 +1,2 @@
+  rhel_package: httpd
+  ubuntu_package: apache2

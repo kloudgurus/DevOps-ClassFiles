@@ -1,0 +1,13 @@
+--- # this is my first playbook
+- hosts: prod_appservers
+  become: yes
+
+  tasks:
+    - name: To add the cron jobs in multiple target machines at a time
+      cron:
+         name="list dir"
+         state="absent" 
+          
+           
+                  
+

@@ -1,0 +1,32 @@
+--- # this is my first playbook
+
+# 1. Target Section - Info about Target machines
+
+- hosts: prod_appservers
+  become: yes
+  connection: ssh
+  gather_facts: yes
+
+
+
+  tasks:
+    - name: install apache web server in rhel
+      yum: pkg={{item}} state=installed update_cache=yes
+      when: ansible_os_family=="RedHat"
+      with_items:
+         - nginx
+         - httpd
+         - java
+         - wget
+   
+
+
+
+
+
+
+
+
+
+
+   

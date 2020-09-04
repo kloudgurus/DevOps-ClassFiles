@@ -1,0 +1,5 @@
+--- # this playbook explains the role concept
+- hosts: prod_appservers
+  become: yes
+  roles: 
+    - appservers

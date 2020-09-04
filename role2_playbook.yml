@@ -1,0 +1,13 @@
+--- # this playbook explains roles with pre and post tasks
+- hosts: prod_appservers
+  become: yes
+  pre_tasks: 
+     - name: print date of target machines before role execution
+       raw: date > /home/pre_task.log
+
+  roles:
+     - appservers
+
+  post_tasks:
+     - name: print date of target machines after role execution
+       raw: date > /home/post_task.log

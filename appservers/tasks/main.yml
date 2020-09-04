@@ -1,0 +1,10 @@
+
+  - name: installing apache webserver in rhel
+    yum: pkg={{rhel_package}} state=installed
+    notify: start apache webserver in rhel
+    when: ansible_os_family=="RedHat"
+   
+  - name: installing apache webserver in ubuntu
+    apt: pkg={{ubuntu_package}} state=latest
+    notify: start apache webserver in ubuntu
+    when: ansible_os_family=="Debian"

@@ -1,0 +1,6 @@
+
+   - name: start apache webserver in rhel
+     service: name={{rhel_package}} state=started
+   
+   - name: start apache webserver in ubuntu
+     service: name={{ubuntu_package}} state=started
