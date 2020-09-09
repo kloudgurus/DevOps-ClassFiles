@@ -1,0 +1,37 @@
+                                    Creation of VPC
+
+1 Create VPC
+
+2 Create Subnets
+
+3 Create Internet Gateways
+
+  Attach to VPC
+
+4 Create NAT Gateways
+
+5 Create Route Tables
+   Routes
+
+6 RoutTables Associate with the Subnets
+
+
+                                  Deletion of VPC
+
+
+
+1  delete all resources like ec2-instances
+
+2  delete the NAT gateway
+
+3  delete subnets
+
+4  detach IGW with VPC
+   delete IGW
+
+
+5  delete Route Tables
+
+6  delete ElasticIp
+
+7  delete VPC
