@@ -1,0 +1,77 @@
+Install MiniKube :            To create the Kubernetes cluster with Single Node                                  AKS (Azure) , EKS (AWS) , KOPS   - with multiple node
+=====================
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+chmod +x minikube
+sudo mv minikube /usr/local/bin/
+
+
+ 
+
+                              To        create the cluster , to start the cluster , to stop the cluster , to delete the cluster
+
+
+
+
+
+
+
+
+
+Install Kubectl :              To perform the operations in the Kubernetes Cluster
+=====================
+
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+
+
+
+Create Kubernetes Cluster:
+=============================
+minikube start --driver=docker    (with non root)
+ 
+minikube addons enable ingress
+
+
+Perform Operations in Kubernetes Cluster:
+===============================================
+Deployment :      kubectl create deployment hello1 --image=gcr.io/google-samples/hello-app:1.0
+
+Service:          kubectl expose deployment hello1 --type=NodePort --port=8080
+
+                  kubectl get service hell01
+
+                  minikube service hello1 --url                   (you can curl output url to acces app)
+
+
+
+Ingress:           sudo vi ingress.yml
+
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - host: hello-world.info
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: hello1
+          servicePort: 8080
+
+
+
+
+                    kubectl apply -f ingress.yaml
+
+                    kubectl get ingress             (it will take time to generate the ip)
+
+                    sudo vi /etc/hosts
+					
+					<ingress-ip> hostname
+
